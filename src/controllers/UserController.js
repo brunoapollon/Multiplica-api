@@ -34,7 +34,27 @@ module.exports = {
       type_user_id,
       avatar_id,
     });
-    delete userCreated.password;
-    return response.status(200).json(userCreated);
+    const userReturn = {
+      enrollment: userCreated.enrollment,
+      name: userCreated.name,
+      email: userCreated.email,
+      type_user_id: userCreated.type_user_id,
+      avatar_id: userCreated.avatar_id,
+    };
+    return response.status(200).json(userReturn);
+  },
+  async index(request, response) {
+    const users = await User.findAll();
+    const usersReturn = users.map(user => {
+      const userMap = {
+        enrollment: user.enrollment,
+        name: user.name,
+        email: user.email,
+        type_user_id: user.type_user_id,
+        avatar_id: user.avatar_id,
+      };
+      return userMap;
+    });
+    return response.status(200).json(usersReturn);
   },
 };

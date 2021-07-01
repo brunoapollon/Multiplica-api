@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const userRouter = require('./routes/users.routes');
+const userRouter = require('./routes/Users.routes');
 const userTypesRouter = require('./routes/UserTypes.routes');
 
 const routes = Router();
