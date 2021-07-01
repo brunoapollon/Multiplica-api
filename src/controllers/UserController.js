@@ -57,4 +57,19 @@ module.exports = {
     });
     return response.status(200).json(usersReturn);
   },
+  async show(request, response) {
+    const { enrollment } = request.params;
+    const userFind = await User.findByPk(enrollment);
+    if (!userFind) {
+      return response.status(404).json({ err: 'User not found' });
+    }
+    const userReturn = {
+      enrollment: userFind.enrollment,
+      name: userFind.name,
+      email: userFind.email,
+      type_user_id: userFind.type_user_id,
+      avatar_id: userFind.avatar_id,
+    };
+    return response.status(200).json(userReturn);
+  },
 };
