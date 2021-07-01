@@ -6,6 +6,6 @@ module.exports = {
   database: 'multiplica',
   define: {
     timestamp: true,
-    undercored: true,
+    underscored: true,
   },
 };
