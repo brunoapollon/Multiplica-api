@@ -72,4 +72,25 @@ module.exports = {
     };
     return response.status(200).json(userReturn);
   },
+  async update(request, response) {
+    const { enrollment } = request.params;
+    const { name, email, type_user_id, avatar_id } = request.body;
+
+    const userExists = await User.findByPk(enrollment);
+
+    if (!userExists) {
+      return response.status(400).json({ error: 'user does not exists' });
+    }
+
+    await User.update(
+      {
+        name,
+        email,
+        type_user_id,
+        avatar_id,
+      },
+      { where: { enrollment } },
+    );
+    return response.status(200).json({ messgae: 'user update successful' });
+  },
 };
