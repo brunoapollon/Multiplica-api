@@ -9,7 +9,8 @@ function ensureAuthenticated(request, response, next) {
   const [, token] = authToken.split(' ');
   try {
     const { sub } = verify(token, authConfig.jwt.secret);
-    request.user_id = parseInt(sub);
+    request.enrollment = parseInt(sub);
+
     return next();
   } catch (err) {
     return response.status(401).end();
