@@ -13,5 +13,6 @@ userRouter.put(
   ensureAuthenticated,
   userController.update,
 );
+userRouter.delete('/users', ensureAuthenticated, userController.delete);
 
 module.exports = userRouter;

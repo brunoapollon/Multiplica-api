@@ -21,8 +21,9 @@ module.exports = {
         .status(400)
         .json({ error: 'enrollment or password is wrong' });
     }
+    const sub = user.enrollment.toString();
     const token = sign({ enrollment: user.enrollment }, authConfig.jwt.secret, {
-      subject: Number.toString(user.enrollment),
+      subject: sub,
       expiresIn: authConfig.jwt.expiresIn,
     });
     return response.json({ token });
