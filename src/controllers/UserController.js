@@ -91,11 +91,11 @@ module.exports = {
       },
       { where: { enrollment } },
     );
-    return response.status(200).json({ messgae: 'user updated successful' });
+    return response.status(200).json({ message: 'user updated successful' });
   },
   async delete(request, response) {
     const { enrollment } = request;
     User.destroy({ where: { enrollment } });
-    return response.status(200).json({ messgae: 'user deleted successful' });
+    return response.status(200).json({ message: 'user deleted successful' });
   },
 };
