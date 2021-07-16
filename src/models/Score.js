@@ -11,7 +11,7 @@ class Score extends Model {
     );
   }
   static associate(models) {
-    this.belongsTo(models.User, { foreignKey: 'user_enrollment', as: 'user' });
+    this.belongsTo(models.User, { foreignKey: 'user_enrollment', as: 'users' });
   }
 }
 
