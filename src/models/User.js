@@ -8,6 +8,7 @@ class User extends Model {
         name: DataTypes.STRING,
         email: DataTypes.STRING,
         password: DataTypes.STRING,
+        level: DataTypes.INTEGER,
         type_user_id: DataTypes.INTEGER,
         avatar_id: DataTypes.INTEGER,
       },
