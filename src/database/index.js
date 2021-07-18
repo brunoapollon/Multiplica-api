@@ -6,16 +6,11 @@ const File = require('../models/File');
 const UserType = require('../models/UserType');
 const Score = require('../models/Score');
 
-const models = [User, File, UserType];
+const models = [User, File, UserType, Subject, Score];
 
 const connection = new Sequelize(dbConfig);
-User.init(connection);
-Subject.init(connection);
-File.init(connection);
-UserType.init(connection);
-Score.init(connection);
 
-User.associate(connection.models);
-Score.associate(connection.models);
+models.map(model => model.init(connection));
+models.map(model => model.associate && model.associate(connection.models));
 
 module.exports = connection;

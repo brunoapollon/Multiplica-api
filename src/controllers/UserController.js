@@ -100,7 +100,7 @@ module.exports = {
     return response.status(200).json(usersReturn);
   },
   async show(request, response) {
-    const { enrollment } = request.params;
+    const { enrollment } = request;
     const userFind = await User.findByPk(enrollment);
     if (!userFind) {
       return response.status(404).json({ err: 'User not found' });
@@ -127,7 +127,7 @@ module.exports = {
     return response.status(200).json(userReturn);
   },
   async update(request, response) {
-    const { enrollment } = request.params;
+    const { enrollment } = request;
     const { name, email, level, type_user_id, avatar_id } = request.body;
 
     const schema = Yup.object().shape({
@@ -149,16 +149,29 @@ module.exports = {
       return response.status(400).json({ error: 'user does not exists' });
     }
 
-    await User.update(
-      {
-        name,
-        email,
-        level,
-        type_user_id,
-        avatar_id,
-      },
-      { where: { enrollment } },
-    );
+    if (userExists.type_user_id === 1) {
+      await User.update(
+        {
+          name,
+          email,
+          level,
+          type_user_id,
+          avatar_id,
+        },
+        { where: { enrollment } },
+      );
+    } else {
+      await User.update(
+        {
+          name,
+          email,
+          type_user_id,
+          avatar_id,
+        },
+        { where: { enrollment } },
+      );
+    }
+
     return response.status(200).json({ message: 'user updated successful' });
   },
   async delete(request, response) {
