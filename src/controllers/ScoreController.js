@@ -14,7 +14,6 @@ module.exports = {
   async update(request, response) {
     const { enrollment } = request;
     let { moreScore } = request.body;
-    console.log(moreScore);
     const userScore = await Score.findOne({
       where: { user_enrollment: enrollment },
     });
