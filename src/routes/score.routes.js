@@ -6,4 +6,9 @@ const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
 const scoreRouter = Router();
 
 scoreRouter.get('/scores/me', ensureAuthenticated, ScoreController.show);
+scoreRouter.put(
+  '/scores/moreScore',
+  ensureAuthenticated,
+  ScoreController.update,
+);
 module.exports = scoreRouter;
