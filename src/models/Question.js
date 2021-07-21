@@ -5,7 +5,7 @@ class Question extends Model {
     super.init(
       {
         title: DataTypes.STRING,
-        descripton: DataTypes.STRING,
+        description: DataTypes.STRING,
         a: DataTypes.STRING,
         b: DataTypes.STRING,
         c: DataTypes.STRING,
@@ -22,7 +22,7 @@ class Question extends Model {
     );
   }
   static associate(models) {
-    this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'files' });
+    this.belongsTo(models.File, { foreignKey: 'file_id', as: 'file' });
     this.belongsTo(models.User, { foreignKey: 'user_enrollment', as: 'user' });
     this.belongsTo(models.Subject, { foreignKey: 'subject_id', as: 'subject' });
   }
