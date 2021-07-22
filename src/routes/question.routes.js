@@ -12,4 +12,27 @@ questionRouter.post(
   ensuredTeacher,
   QuestionController.store,
 );
+questionRouter.get(
+  '/questions/:question_id',
+  ensureAuthenticated,
+  QuestionController.show,
+);
+questionRouter.get(
+  '/questions/:subject_id/:level',
+  ensureAuthenticated,
+  ensuredTeacher,
+  QuestionController.index,
+);
+questionRouter.put(
+  '/questions/update/:question_id',
+  ensureAuthenticated,
+  ensuredTeacher,
+  QuestionController.update,
+);
+questionRouter.delete(
+  '/questions/delete/:question_id',
+  ensureAuthenticated,
+  ensuredTeacher,
+  QuestionController.delete,
+);
 module.exports = questionRouter;
