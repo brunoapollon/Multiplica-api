@@ -5,8 +5,9 @@ const Subject = require('../models/Subject');
 const File = require('../models/File');
 const UserType = require('../models/UserType');
 const Score = require('../models/Score');
+const Question = require('../models/Question');
 
-const models = [User, File, UserType, Subject, Score];
+const models = [User, File, UserType, Subject, Score, Question];
 
 const connection = new Sequelize(dbConfig);
 

@@ -5,6 +5,10 @@ const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
 
 const scoreRouter = Router();
 
-scoreRouter.post('/users/scores', ensureAuthenticated, ScoreController.store);
-
+scoreRouter.get('/scores/me', ensureAuthenticated, ScoreController.show);
+scoreRouter.put(
+  '/scores/moreScore',
+  ensureAuthenticated,
+  ScoreController.update,
+);
 module.exports = scoreRouter;

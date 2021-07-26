@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Score = require('../models/Score');
 const { hash } = require('bcryptjs');
 const Yup = require('yup');
 
@@ -34,7 +35,9 @@ module.exports = {
     }
 
     const passwordEncoded = await hash(password, 8);
+
     let userCreated, userReturn;
+
     if (type_user_id === 1) {
       userCreated = await User.create({
         enrollment,
@@ -45,6 +48,12 @@ module.exports = {
         type_user_id,
         avatar_id,
       });
+
+      await Score.create({
+        score: 0,
+        user_enrollment: enrollment,
+      });
+
       userReturn = {
         enrollment: userCreated.enrollment,
         name: userCreated.name,
@@ -62,6 +71,7 @@ module.exports = {
         type_user_id,
         avatar_id,
       });
+
       userReturn = {
         enrollment: userCreated.enrollment,
         name: userCreated.name,

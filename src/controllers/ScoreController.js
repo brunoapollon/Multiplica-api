@@ -1,19 +1,27 @@
+const { update } = require('../models/Score');
 const Score = require('../models/Score');
+const User = require('../models/User');
+
 module.exports = {
-  async store(request, response) {
-    const { score } = request.body;
+  async show(request, response) {
     const { enrollment } = request;
-    if (!score) {
-      return response.status(400).json({ error: 'Validation fails' });
-    }
-    const scoreCreated = await Score.create({
-      score,
-      user_enrollment: enrollment,
+    const userScore = await Score.findOne({
+      include: [{ model: User, as: 'user', attributes: ['name', 'level'] }],
+      where: { user_enrollment: enrollment },
     });
-    return response.status(200).json(scoreCreated);
+    return response.status(200).json(userScore);
   },
-  async index(request, response) {},
-  async show(request, response) {},
-  async update(request, response) {},
-  async delete(request, response) {},
+  async update(request, response) {
+    const { enrollment } = request;
+    let { moreScore } = request.body;
+    const userScore = await Score.findOne({
+      where: { user_enrollment: enrollment },
+    });
+    moreScore += userScore.score;
+    await Score.update(
+      { score: moreScore },
+      { where: { user_enrollment: enrollment } },
+    );
+    return response.status(200).json({ message: 'update score successful' });
+  },
 };
