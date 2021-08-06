@@ -61,4 +61,16 @@ module.exports = {
     });
     return response.status(200).json(quizz);
   },
+  async update(request, response) {
+    const { quizz_id } = request.params;
+    const { title, subject_id } = request.body;
+    if (subject_id) {
+      const subjectFind = await Subject.findByPk(subject_id);
+      if (!subjectFind) {
+        return response.status(404).json({ error: 'subject not found' });
+      }
+    }
+    await Quizz.update({ title, subject_id }, { where: { id: quizz_id } });
+    return response.status(200).json({ message: 'Quizz updated successful' });
+  },
 };
