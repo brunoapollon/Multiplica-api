@@ -70,7 +70,21 @@ module.exports = {
         return response.status(404).json({ error: 'subject not found' });
       }
     }
+    const quizzFind = await Quizz.findByPk(quizz_id);
+    if (!quizzFind) {
+      return response.status(404).json({ error: 'quizz not found' });
+    }
     await Quizz.update({ title, subject_id }, { where: { id: quizz_id } });
     return response.status(200).json({ message: 'Quizz updated successful' });
+  },
+  async delete(request, response) {
+    const { quizz_id } = request.params;
+    const quizzFind = await Quizz.findByPk(quizz_id);
+    if (!quizzFind) {
+      return response.status(404).json({ error: 'quizz not found' });
+    }
+
+    await Quizz.destroy({ where: { id: quizz_id } });
+    return response.status(200).json({ message: 'Quizz deleted successful' });
   },
 };
