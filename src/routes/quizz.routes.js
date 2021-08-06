@@ -13,4 +13,6 @@ quizzRouter.post(
   quizzController.store,
 );
 
+quizzRouter.get('/quizz/:quizz_id', ensureAuthenticated, quizzController.show);
+
 module.exports = quizzRouter;

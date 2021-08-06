@@ -1,4 +1,6 @@
 const Quizz = require('../models/Quizz');
+const QuizzQuestion = require('../models/QuizzQuestion');
+const Question = require('../models/Question');
 const Subject = require('../models/Subject');
 const Yup = require('yup');
 
@@ -19,5 +21,38 @@ module.exports = {
     }
     const quizz = await Quizz.create({ subject_id, title });
     return response.status(200).json(quizz);
+  },
+  async show(request, response) {
+    const { quizz_id } = request.params;
+    let quizzReturn = {
+      id: '',
+      title: '',
+      subject_id: 0,
+      questions: [],
+      createdAt: '',
+      updatedAt: '',
+    };
+    const findQuizz = await Quizz.findByPk(quizz_id);
+    if (!findQuizz) {
+      return response.status(404).json({ error: 'quizz not found' });
+    }
+    const findQuestions = await QuizzQuestion.findAll({
+      include: [
+        {
+          model: Question,
+          as: 'question',
+        },
+      ],
+      where: { quizz_id },
+    });
+    quizzReturn = {
+      id: findQuizz.id,
+      title: findQuizz.title,
+      subject_id: findQuizz.subject_,
+      questions: findQuestions,
+      createdAt: findQuizz.createdAt,
+      updatedAt: findQuizz.updatedAt,
+    };
+    return response.status(200).json(quizzReturn);
   },
 };
