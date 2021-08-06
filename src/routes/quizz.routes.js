@@ -15,4 +15,6 @@ quizzRouter.post(
 
 quizzRouter.get('/quizz/:quizz_id', ensureAuthenticated, quizzController.show);
 
+quizzRouter.get('/quizz/', ensureAuthenticated, quizzController.index);
+
 module.exports = quizzRouter;

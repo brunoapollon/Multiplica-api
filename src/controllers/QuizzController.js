@@ -55,4 +55,10 @@ module.exports = {
     };
     return response.status(200).json(quizzReturn);
   },
+  async index(request, response) {
+    const quizz = await Quizz.findAll({
+      include: { model: Subject, as: 'subject' },
+    });
+    return response.status(200).json(quizz);
+  },
 };
