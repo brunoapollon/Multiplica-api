@@ -6,7 +6,7 @@ async function ensuredTeacher(request, response, next) {
   if (user.type_user_id === 2) {
     return next();
   }
-  return response.status(401).end();
+  return response.status(400).json({ error: "you're not a teacher" });
 }
 
 module.exports = ensuredTeacher;

@@ -8,6 +8,7 @@ const Score = require('../models/Score');
 const Question = require('../models/Question');
 const Quizz = require('../models/Quizz');
 const QuizzQuestion = require('../models/QuizzQuestion');
+const QuizzUser = require('../models/QuizzUser');
 
 const models = [
   User,
@@ -18,6 +19,7 @@ const models = [
   Question,
   Quizz,
   QuizzQuestion,
+  QuizzUser,
 ];
 
 const connection = new Sequelize(dbConfig);

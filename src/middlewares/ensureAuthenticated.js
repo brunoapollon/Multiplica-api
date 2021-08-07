@@ -13,7 +13,7 @@ function ensureAuthenticated(request, response, next) {
 
     return next();
   } catch (err) {
-    return response.status(401).end();
+    return response.status(401).json({ error: 'you are not authenticated' });
   }
 }
 

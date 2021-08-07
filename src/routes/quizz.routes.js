@@ -1,6 +1,7 @@
 const { Router } = require('express');
 
 const quizzController = require('../controllers/QuizzController');
+const AnswerQuizController = require('../controllers/AnswerQuizController');
 const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
 const ensuredTeacher = require('../middlewares/ensuredTeacher');
 
@@ -30,4 +31,11 @@ quizzRouter.delete(
   ensuredTeacher,
   quizzController.delete,
 );
+
+quizzRouter.post(
+  '/quizz/answerQuizz/:quizz_id',
+  ensureAuthenticated,
+  AnswerQuizController.store,
+);
+
 module.exports = quizzRouter;
