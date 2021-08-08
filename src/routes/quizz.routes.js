@@ -2,6 +2,7 @@ const { Router } = require('express');
 
 const quizzController = require('../controllers/QuizzController');
 const AnswerQuizController = require('../controllers/AnswerQuizController');
+const QuizzResultsController = require('../controllers/QuizzResultsController');
 const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
 const ensuredTeacher = require('../middlewares/ensuredTeacher');
 
@@ -38,4 +39,14 @@ quizzRouter.post(
   AnswerQuizController.store,
 );
 
+quizzRouter.get(
+  '/quizz/myResults/show',
+  ensureAuthenticated,
+  QuizzResultsController.index,
+);
+quizzRouter.get(
+  '/quizz/myResults/:quizz_user_id',
+  ensureAuthenticated,
+  QuizzResultsController.show,
+);
 module.exports = quizzRouter;
