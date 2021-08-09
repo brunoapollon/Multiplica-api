@@ -1,27 +1,31 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) =>
-    await queryInterface.createTable('quiz_question', {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('user_quizzs', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        allowNull: false,
         autoIncrement: true,
+        allowNull: false,
       },
-      quiz_id: {
+      user_enrollment: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: 'quizz', key: 'id' },
+        references: { model: 'users', key: 'enrollment' },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      question_id: {
+      quizz_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: 'questions', key: 'id' },
+        references: { model: 'quizzs', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+      },
+      score: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -31,8 +35,10 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
-    }),
+    });
+  },
 
-  down: async (queryInterface, Sequelize) =>
-    await queryInterface.dropTable('questions'),
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('user_quizzs');
+  },
 };

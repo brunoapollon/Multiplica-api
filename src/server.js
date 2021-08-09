@@ -3,8 +3,10 @@ const express = require('express');
 const handleErrors = require('./middlewares/handleErrors');
 require('./database');
 const routes = require('./index.routes');
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.use(routes);
