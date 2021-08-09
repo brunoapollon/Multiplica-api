@@ -9,16 +9,20 @@ const questionRouter = require('./routes/question.routes');
 const quizzRouter = require('./routes/quizz.routes');
 const addQuestionsInQuizzRouter = require('./routes/addQuestionsInQuizz.routes');
 
+const routesArray = [
+  userRouter,
+  userAuth,
+  subjectRouter,
+  userTypesRouter,
+  rankingRouter,
+  scoreRouter,
+  questionRouter,
+  quizzRouter,
+  addQuestionsInQuizzRouter,
+];
+
 const routes = Router();
 
-routes.use(userRouter);
-routes.use(userTypesRouter);
-routes.use(userAuth);
-routes.use(scoreRouter);
-routes.use(rankingRouter);
-routes.use(subjectRouter);
-routes.use(questionRouter);
-routes.use(quizzRouter);
-routes.use(addQuestionsInQuizzRouter);
+routesArray.map(route => routes.use(route));
 
 module.exports = routes;
