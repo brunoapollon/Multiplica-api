@@ -21,7 +21,10 @@ module.exports = {
     const filecreated = await File.create({ name: file.filename, url });
 
     await User.update({ avatar_id: filecreated.id }, { where: { enrollment } });
-    await File.destroy({ where: { id: findedUser.file.id } });
+
+    if (findedUser.file) {
+      await File.destroy({ where: { id: findedUser.file.id } });
+    }
 
     return response.status(200).json({ messgae: 'avatar update successful' });
   },
