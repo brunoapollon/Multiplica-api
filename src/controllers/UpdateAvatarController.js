@@ -12,13 +12,21 @@ module.exports = {
     const findedUser = await User.findByPk(enrollment, {
       include: [{ model: File, as: 'file' }],
     });
-    console.log(findedUser.file.name);
+
     if (findedUser.file) {
       fs.promises.unlink(path.resolve(uploadConfig.dest, findedUser.file.name));
     }
 
-    const url = `${process.env._URL_API_}/${file.filename}`;
-    const filecreated = await File.create({ name: file.filename, url });
+    let url = `${process.env._URL_API_}/${file.filename}`;
+
+    console.log(file.location);
+
+    if (file.location) url = file.location;
+
+    const filecreated = await File.create({
+      name: file.key ? file.key : file.filename,
+      url,
+    });
 
     await User.update({ avatar_id: filecreated.id }, { where: { enrollment } });
 
