@@ -35,7 +35,6 @@ const storageTypes = {
   }),
 };
 
-console.log(process.env.STORAGE_TYPE);
 const uploadConfig = {
   dest: path.resolve(__dirname, '..', '..', 'uploads'),
   storage: storageTypes[process.env.STORAGE_TYPE === 's3' ? 's3' : 'local'],

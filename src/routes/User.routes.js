@@ -15,6 +15,7 @@ userRouter.get('/users', ensureAuthenticated, userController.index);
 userRouter.get('/users/:enrollment', ensureAuthenticated, userController.show);
 
 userRouter.put('/users/update', ensureAuthenticated, userController.update);
+
 userRouter.patch(
   '/users/updateAvatar',
   ensureAuthenticated,

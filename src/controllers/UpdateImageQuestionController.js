@@ -2,6 +2,7 @@ const fs = require('fs');
 const Question = require('../models/Question');
 const File = require('../models/File');
 const path = require('path');
+const aws = require('aws-sdk');
 
 const uploadConfig = require('../config/uploadConfig');
 
@@ -9,7 +10,10 @@ module.exports = {
   async update(request, response) {
     const { question_id } = request.params;
     const { file } = request;
-    const findedQuestion = await Question.findByPk(question_id);
+
+    const findedQuestion = await Question.findByPk(question_id, {
+      include: [{ model: File, as: 'file' }],
+    });
 
     if (!findedQuestion) {
       fs.promises.unlink(path.resolve(uploadConfig.dest, file.filename));
@@ -17,11 +21,29 @@ module.exports = {
     }
 
     if (findedQuestion.file) {
-      fs.promises.unlink(path.resolve(uploadConfig.dest, findedUser.file.name));
+      if (process.env.STORAGE_TYPE === 'local')
+        fs.promises.unlink(
+          path.resolve(uploadConfig.dest, findedQuestion.file.name),
+        );
+      else {
+        const S3 = new aws.S3();
+
+        S3.deleteObject({
+          Bucket: process.env.BUCKET_NAME,
+          Key: findedQuestion.file.name,
+        }).promise();
+      }
     }
 
-    const url = `${process.env._URL_API_}/${file.filename}`;
-    const fileQuestion = await File.create({ name: file.filename, url });
+    let url = `${process.env._URL_API_}/${file.filename}`;
+
+    if (file.location) url = file.location;
+
+    const fileQuestion = await File.create({
+      name: file.key ? file.key : file.filename,
+      url,
+    });
+
     await Question.update(
       { file_id: fileQuestion.id },
       { where: { id: question_id } },

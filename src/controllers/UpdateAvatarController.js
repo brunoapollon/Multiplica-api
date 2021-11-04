@@ -31,8 +31,6 @@ module.exports = {
 
     let url = `${process.env._URL_API_}/${file.filename}`;
 
-    console.log(file.location);
-
     if (file.location) url = file.location;
 
     const filecreated = await File.create({
