@@ -2,6 +2,7 @@ const fs = require('fs');
 const User = require('../models/User');
 const File = require('../models/File');
 const path = require('path');
+const aws = require('aws-sdk');
 
 const uploadConfig = require('../config/uploadConfig');
 
@@ -14,7 +15,18 @@ module.exports = {
     });
 
     if (findedUser.file) {
-      fs.promises.unlink(path.resolve(uploadConfig.dest, findedUser.file.name));
+      if (process.env.STORAGE_TYPE === 'local')
+        fs.promises.unlink(
+          path.resolve(uploadConfig.dest, findedUser.file.name),
+        );
+      else {
+        const S3 = new aws.S3();
+
+        S3.deleteObject({
+          Bucket: process.env.BUCKET_NAME,
+          Key: findedUser.file.name,
+        }).promise();
+      }
     }
 
     let url = `${process.env._URL_API_}/${file.filename}`;
